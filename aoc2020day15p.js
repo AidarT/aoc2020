@@ -4,7 +4,7 @@ function day15() {
     let input = "9,3,1,0,8,4"
     input = input.split(",").map(Number)
 
-    let inds = new Array(30000000); last_inds = new Array(30000000);
+    let inds = new Array(30000000), last_inds = new Array(30000000);
     input.forEach((a,i) => {inds[a] = i; last_inds[a] = i})
     let last_el = 4
     let count = input.length
