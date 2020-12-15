@@ -1,8 +1,8 @@
 const fs = require('fs');
 
-day14p1()
+day14()
 
-function day14p1() {
+function day14() {
     let input = fs.readFileSync('C:\\Users\\User\\Documents\\input.txt', "utf8", (err, data) => {
         if (err) throw err;
         console.log(data);
