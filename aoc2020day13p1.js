@@ -2,6 +2,28 @@ const fs = require('fs');
 
 day13()
 
+function inv_mod(a, m) {
+    let m0 = m, t, q, x0 = 0, x1 = 1
+    if (m === 1) {return 0}
+
+    while (a > 1) {
+        q = Math.floor(a / m)
+        t = m
+
+        m = a % m
+        a = t
+        t = x0
+        x0 = x1 - q * x0
+        x1 = t
+    }
+
+    if (x1 < 0) {
+        x1 += m0
+    }
+
+    return x1
+}
+
 function day13() {
     let input = fs.readFileSync('C:\\Users\\Hazard\\Documents\\input.txt', "utf8", (err, data) => {
         if (err) throw err;
@@ -21,31 +43,20 @@ function day13() {
     const part1 = (Math.min(...buses)-ts) * nums[buses.indexOf(Math.min(...buses))]
 
     let dif = []
-    input[1].split(",").forEach((a, i) => {
+    input[1].split(",").reverse().forEach((a, i) => {
         if (a !== "x") {
             dif.push(i)
         }
     })
+    dif = dif.reverse()
 
-    let step = Math.max(...nums)
-    let part2 = Math.floor(100000000000000/step)*step-dif[nums.indexOf(step)], key = 0
-    let iter = nums.map(a => 0)
-    while (key === 0) {
-        iter = nums.map((a,i) => {
-            let b = part2 % a === 0 ? 0 : a
-            if (Math.floor(part2 / a) * a + b === part2 + dif[i]) {
-                return 1
-            } else {
-                return 0
-            }
-        })
-        if (iter.length === iter.filter(a => a === 1).length) {
-            break
-        }
-        part2+=step
-    }
+    let prod = nums.reduce((a, b) => a * b, 1)
+    let pp = nums.map(a => prod/a)
+    let inv = nums.map((a, i) => inv_mod(pp[i],a))
+    let part2 = inv.reduce((prev, cur, i) =>
+       prev +  BigInt(dif[i]) *  BigInt(inv[i]) *  BigInt(pp[i])
+    , BigInt(0))
+    part2 = part2 % BigInt(prod) - BigInt(dif[0])
 
-
-    console.log(part1)
+    console.log(part1 + " " + part2)
 }
-
