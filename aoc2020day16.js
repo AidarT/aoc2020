@@ -41,7 +41,6 @@ function day16() {
         j++
     }
 
-    j = 1
     while (!rule_names.every(rule => rule.length === 1)) {
         rule_names.forEach((rule, ind) => {
             if (rule.length === 1) {
