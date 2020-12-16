@@ -3,10 +3,7 @@ const fs = require('fs');
 day16()
 
 function day16() {
-    let input = fs.readFileSync('C:\\Users\\User\\Documents\\input.txt', "utf8", (err, data) => {
-        if (err) throw err;
-        console.log(data);
-    });
+    let input = fs.readFileSync('C:\\Users\\User\\Documents\\input.txt', "utf8")
     let rules = {}
     input.split("your ticket:")[0].split("\r\n").filter(a => a !== "").forEach(rule => {
         const [left, right] = rule.split(": ");
