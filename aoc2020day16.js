@@ -21,8 +21,7 @@ function day16() {
     const part1 = nrby_t.reduce((sum, cur) =>
         sum + cur.filter(t => Object.keys(rules).every(r =>
             !(rules[r][0] <= t && rules[r][1] >= t) && !(rules[r][2] <= t && rules[r][3] >= t)))
-            .reduce((sum, valid) => sum + valid,0)
-    , 0)
+            .reduce((sum, valid) => sum + valid, 0), 0)
 
     nrby_t = nrby_t.filter(cur => cur.every(t => !Object.keys(rules).every(r =>
         !(rules[r][0] <= t && rules[r][1] >= t) && !(rules[r][2] <= t && rules[r][3] >= t)))
