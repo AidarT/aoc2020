@@ -17,26 +17,16 @@ function day16() {
     let nrby_t = input.split("nearby tickets:")[1]
         .split("\r\n").filter(a => a !== "").map(a => [...a.match(/\d+/g).map(Number)])
 
-    const part1 = nrby_t.reduce((sum, cur) =>
-        sum + cur.filter(t => Object.keys(rules).every(r =>
-            !(rules[r][0] <= t && rules[r][1] >= t) && !(rules[r][2] <= t && rules[r][3] >= t)))
+    const valid = (r, num) => (r[0] <= num && r[1] >= num) || (r[2] <= num && r[3] >= num)
+
+    const part1 = nrby_t.reduce((sum, t) =>
+        sum + t.filter(t => Object.keys(rules).every(r => !valid(rules[r], t)))
             .reduce((sum, valid) => sum + valid, 0), 0)
 
-    nrby_t = nrby_t.filter(cur => cur.every(t => !Object.keys(rules).every(r =>
-        !(rules[r][0] <= t && rules[r][1] >= t) && !(rules[r][2] <= t && rules[r][3] >= t)))
-    )
+    nrby_t = nrby_t.filter(cur => cur.every(t => !Object.keys(rules).every(r => !valid(rules[r], t))))
 
-    let rule_names = []
-    for (let j = 0; j < nrby_t[0].length; j++) {
-        rule_names[j] = []
-        for (let r in rules) {
-            let key = nrby_t.every(t =>
-                (rules[r][0] <= t[j] && rules[r][1] >= t[j]) || (rules[r][2] <= t[j] && rules[r][3] >= t[j])            )
-            if (key === true && !rule_names[j].includes(r)) {
-                rule_names[j].push(r)
-            }
-        }
-    }
+    let rule_names = nrby_t[0].map((a, j) => Object.keys(rules)
+        .filter(r => nrby_t.every(t => valid(rules[r], t[j]))))
 
     while (!rule_names.every(rule => rule.length === 1)) {
         rule_names.forEach((rule, ind) => {
