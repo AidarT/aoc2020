@@ -9,9 +9,9 @@ function day18() {
     let newInput = input.slice()
 
     while(true) {
-        let parentheses = input.map(a => a.match(/\((\d+\W{1,3})+\d+\):?/g)) //(/\(\d+\W+\d+\)/g))
+        let parentheses = input.map(a => a.match(/\((\d+\W{1,3})+\d+\):?/g))
 
-        if (parentheses[0] === null) {break}
+        if (parentheses.every(a => a === null) === true) {break}
 
         parentheses.forEach((a, i) => {
             if (a !== null) {
@@ -19,7 +19,7 @@ function day18() {
                     let memb = a.match(/\d+/g).map(Number)
                     let sign = a.match(/\+|\*/g)
                     let answ = eq_solve(memb, sign)
-                    input[i] = input[i].replace(a, "" + answ)
+                    input[i] = input[i].replace(a, answ.toString())
                 })
             }
         })
@@ -32,11 +32,14 @@ function day18() {
         return prev + eq_solve(cur, signs[i])}, 0)
 
     while(true) {
-        let parentheses = newInput.map(a => a.match(/\((\d+\W{1,3})+\d+\):?/g)) //(/\(\d+\W+\d+\)/g))
+        let parentheses = newInput.map(a => a.match(/\((\d+\W{1,3})+\d+\):?/g))
 
         if (parentheses.every(a => a === null) === true) {break}
 
         for (let i = 0; i < parentheses.length; i++) {
+            if (i === 245) {
+                stopit = 1
+            }
             if (parentheses[i] !== null) {
                 for (let ii = 0; ii < parentheses[i].length; ii++) {
                     while(true) {
@@ -46,8 +49,9 @@ function day18() {
                             if (a !== null) {
                                 let memb = a.match(/\d+/g).map(Number)
                                 let answ = memb.reduce((prev, cur) => prev + cur, 0)
-                                parentheses[i][ii] = parentheses[i][ii].replace(a, "" + answ)
-                                newInput[i] = newInput[i].replace(a, "" + answ)
+                                newInput[i] = newInput[i].replace(parentheses[i][ii],
+                                    parentheses[i][ii].replace(a, answ.toString()))
+                                parentheses[i][ii] = parentheses[i][ii].replace(a, answ.toString())
                             }
                         })
                     }
@@ -59,7 +63,7 @@ function day18() {
                 a.forEach(a => {
                     let memb = a.match(/\d+/g).map(Number)
                     let answ = memb.reduce((prev, cur) => prev * cur, 1)
-                    newInput[i] = newInput[i].replace(a, "" + answ)
+                    newInput[i] = newInput[i].replace(a, answ.toString())
                 })
             }
         })
@@ -73,15 +77,17 @@ function day18() {
                 if (a !== null) {
                     let memb = a.match(/\d+/g).map(Number)
                     let answ = memb.reduce((prev, cur) => prev + cur, 0)
-                    newInput[i] = newInput[i].replace(a, "" + answ)
+                    newInput[i] = newInput[i].replace(a, answ.toString())
                 }
             })
         }
     }
 
     let part2 = newInput.reduce((prev, cur) => {
-        return prev + cur.match(/\d+/g).reduce((prev, cur) => prev * cur, 1)
+        return prev + cur.match(/\d+/g).map(Number).reduce((prev, cur) => prev * cur, 1)
     }, 0)
+
+    //newInput = newInput.map(a => a.match(/\d+/g).map(Number).reduce((prev, cur) => prev * cur, 1))
 
     console.log(part1 + " " + part2)
 }
