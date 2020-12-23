@@ -17,7 +17,7 @@ function day23() {
         }
         dest_cup = cur_cup - 1 > 0 ? (cur_cup - 1).toString() : Math.max(...cups_up.map(Number)).toString()
         while (true) {
-            if (cups_up.includes(dest_cup)) {break}
+            if (!picked_up_cups.includes(dest_cup)) {break}
             dest_cup = dest_cup - 1 > 0 ? (dest_cup - 1).toString() : Math.max(...cups_up.map(Number)).toString()
         }
         cups = cups_up.join('').split(dest_cup)
@@ -44,11 +44,9 @@ function day23() {
         }
         dest_cup = cur_cup - 1 > 0 ? (cur_cup - 1).toString() : (1000000).toString()
         while (true) {
-            if (cups_up.includes(dest_cup)) {break}
+            if (!picked_up_cups.includes(dest_cup)) {break}
             dest_cup = dest_cup - 1 > 0 ? (dest_cup - 1).toString() : (1000000).toString()
         }
-        // cups = cups_up.join(',').split(dest_cup)
-        // cups = (cups[0] + dest_cup + "," + picked_up_cups.join(',') + cups[1]).split(",")
         if (cups_up.indexOf(dest_cup) === 0) {
             cups = cups_up.slice()
             cups.shift()
