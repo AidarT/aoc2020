@@ -3,8 +3,7 @@ const fs = require('fs');
 day24()
 
 function day24() {
-    let input = fs.readFileSync('C:\\Users\\User\\Documents\\input.txt', "utf8")
-    input = input.split("\r\n");
+    let input = fs.readFileSync('C:\\Users\\User\\Documents\\input.txt', "utf8").split("\r\n");
 
     let black = []
     const dir = a => {switch (a) {
@@ -20,8 +19,6 @@ function day24() {
             return [1, -1, 0]
         case "w":
             return [-1, 1, 0]
-        default:
-            return 999
     }}
 
     input.forEach(a => {
@@ -33,8 +30,8 @@ function day24() {
             black.splice(black.indexOf(fin_coord.toString()),1)
         }
     })
-
     const part1 = black.length
+
     let new_black
     const neighb_dir = [[0, -1, 1], [-1, 0, 1], [0, 1, -1], [1, 0, -1], [1, -1, 0], [-1, 1, 0]];
 
@@ -61,7 +58,6 @@ function day24() {
         }
         black = new_black.slice()
     }
-
     let part2 = new_black.length
 
     console.log(part1 + " " + part2)
