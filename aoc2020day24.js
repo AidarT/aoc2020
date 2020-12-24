@@ -35,11 +35,11 @@ function day24() {
     })
 
     const part1 = black.length
-
+    let new_black
     const neighb_dir = [[0, -1, 1], [-1, 0, 1], [0, 1, -1], [1, 0, -1], [1, -1, 0], [-1, 1, 0]];
-    let part2
+
     for (let day = 1; day <= 100; day++) {
-        let new_black = []
+        new_black = []
         for (let i = 0; i < black.length; i++) {
             let coord = black[i].split(",").map(Number)
             let neighb = neighb_dir.map(a => a.map((a, i) => a + coord[i]))
@@ -60,8 +60,9 @@ function day24() {
             })
         }
         black = new_black.slice()
-        part2 = new_black.length
     }
+
+    let part2 = new_black.length
 
     console.log(part1 + " " + part2)
 }
@@ -69,5 +70,5 @@ function day24() {
 function neighb_count(coord, array) {
     const neighb_dir = [[0, -1, 1], [-1, 0, 1], [0, 1, -1], [1, 0, -1], [1, -1, 0], [-1, 1, 0]];
     let neighb = neighb_dir.map(a => a.map((a,i) => a + coord[i]))
-    return neighb.reduce((prev, cur) => array.includes(cur.toString()) ? prev+1 : prev,0)
+    return neighb.reduce((prev, cur) => array.includes(cur.toString()) ? prev + 1 : prev, 0)
 }
