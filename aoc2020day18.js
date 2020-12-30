@@ -31,33 +31,6 @@ function day18() {
     let part1 = nums.reduce((prev, cur,i) => {
         return prev + eq_solve(cur, signs[i])}, 0)
 
-    // for (let i = 0; i < newInput.length; i++) {
-    //     while(true) {
-    //         let sums = newInput[i].match(/\d+\s\+\s\d+/g)
-    //         if (sums === null) {break}
-    //         sums.forEach((a) => {
-    //             if (a !== null) {
-    //                 let memb = a.match(/\d+/g).map(Number)
-    //                 let answ = memb.reduce((prev, cur) => prev + cur, 0)
-    //                 newInput[i] = newInput[i].replace(a, answ.toString())
-    //             }
-    //         })
-    //     }
-    // }
-    //
-    // newInput.forEach((a, i) => {
-    //     if (a.match(/\(\d+\)/g) !== null) {
-    //         let b = a.match(/\(\d+\)/g).map(a => a.match(/\d+/g))
-    //         if (b.length < 2) {
-    //             newInput[i] = a.replace(/\(\d+\)/g, a.match(/\(\d+\)/g).map(a => a.match(/\d+/g)))
-    //         } else {
-    //             for (let j = 0; j < b.length; j++) {
-    //                 newInput[i] = newInput[i].replace("(" + b[j][0] + ")", b[j][0])
-    //             }
-    //         }
-    //     }
-    // })
-
     while(true) {
         let parentheses = newInput.map(a => a.match(/\((\d+\W{1,3})+\d+\):?/g))
 
@@ -97,11 +70,12 @@ function day18() {
         while(true) {
             let sums = newInput[i].match(/\d+\s\+\s\d+/g)
             if (sums === null) {break}
+            newInput[i] = newInput[i].replace(/\d+\s\+\s\d+/g, "(" + '$&' + ")")
             sums.forEach((a) => {
                 if (a !== null) {
                     let memb = a.match(/\d+/g).map(Number)
                     let answ = memb.reduce((prev, cur) => prev + cur, 0)
-                    newInput[i] = newInput[i].replace(a, answ.toString())
+                    newInput[i] = newInput[i].replace("(" + a + ")", answ.toString())
                 }
             })
         }
