@@ -11,11 +11,21 @@ function day20() {
         tiles[parseInt(num.split(" ")[1])] = image.split("\r\n")
     })
 
-    let jigsaw = [tiles[Object.keys(tiles)[0]]], jigsaw_num = [parseInt(Object.keys(tiles)[0])], jigsaw_coord = [[0, 0]]
-    while (jigsaw.length !== tiles.length) {
-        for (let i = 0; i < jigsaw.length; i++) {
-            let sides = getSides(jigsaw[i])
-            let new1 = rotateTileRight(jigsaw[i])
+    let jigsaw = {}, jigsaw_num = {}
+    jigsaw["0, 0"] = tiles[Object.keys(tiles)[0]], jigsaw_num["0, 0"] = parseInt(Object.keys(tiles)[0])
+    // let jigsaw = [tiles[Object.keys(tiles)[0]]], jigsaw_num = [parseInt(Object.keys(tiles)[0])], jigsaw_coord = [[0, 0]]
+    while (Object.keys(jigsaw).length !== Object.keys(tiles).length) {
+        for (let tile in jigsaw) {
+            let edges = getEdges(jigsaw[tile])
+            tiles.forEach(a => {
+                let newTile = a
+                for (let i = 1; i <= 4; i++) {
+                    let newEdges = getEdges(newTile)
+
+                    newTile = rotateTileRight(newTile)
+                }
+            })
+
             let tmp = 1
         }
     }
@@ -27,7 +37,7 @@ function day20() {
     console.log(part1 + " " + part2)
 }
 
-function getSides(tile) {
+function getEdges(tile) {
     let up = tile[0], down = tile[tile.length - 1]
     let left = tile.reduce((prev, cur) => prev + cur[0], ""),
         right = tile.reduce((prev, cur) => prev+ cur[cur.length-1], "")
