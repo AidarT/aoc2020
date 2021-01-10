@@ -10,11 +10,11 @@ function day22() {
 
     let game_res = crab_game(player1_deck.slice(), player2_deck.slice())
     let winner = game_res[0].length > 0 ? game_res[0] : game_res[1]
-    let part1 = winner.reduce((prev,cur,i) => prev + cur*(winner.length - i),0)
+    let part1 = winner.reduce((prev,cur,i) => prev + cur*(winner.length - i), 0)
 
     game_res = crab_game_rec(player1_order.slice(), player2_order.slice())
     winner = game_res[0].length > 0 ? game_res[0] : game_res[1]
-    let part2 = winner.reduce((prev,cur,i) => prev + cur*(winner.length - i),0)
+    let part2 = winner.reduce((prev,cur,i) => prev + cur*(winner.length - i), 0)
 
     console.log(part1 + " " + part2)
 }
