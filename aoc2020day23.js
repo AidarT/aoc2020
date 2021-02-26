@@ -28,6 +28,40 @@ function day23() {
     cups = cups.join('')
     let part1 = cups.split("1")[1] + cups.split("1")[0]
 
+    cups = "219748365".split("").map(Number)
+    // for (let i = Math.max(...cups.map(Number))+1; i <= 1000000; i++) {
+    //     cups.push(i)
+    // }
+    cups = cups.map((a, i) => ({cup : a, next : (cups.length + i + 1) % cups.length}))
+    mark = 0
+    for (let i = 1; i <= 100; i++) {
+        cur_cup = bigCups[mark]
+        picked_up_cups=[]
+        for (let j = 1; j <= 3; j++) {
+            let ind = mark + j > cups.length - 1 ? mark + j - cups.length : mark + j
+            picked_up_cups.push(bigCups[ind])
+        }
+        dest_cup = cur_cup-- > 0 ? cur_cup-- : 9
+        let ind
+        while (true) {
+            Object.entries(bigCups).forEach((entry) => {
+                if (entry[1] === dest_cup) {
+                    ind = Number(entry[0])
+                }
+            })
+            if (!(ind >= mark + 1 && ind <= mark + 3)) {break}
+            dest_cup = dest_cup-- > 0 ? dest_cup-- : 9
+        }
+        for (let j = mark + 1; j < cups.length; j++) {
+            bigCups[j] = 0;
+        }
+
+        mark = mark++ >= cups.length ? 0 : mark++
+    }
+
+
+
+
     cups = "219748365".split("")
     for (let i = Math.max(...cups.map(Number))+1; i <= 1000000; i++) {
         cups.push(i.toString())
