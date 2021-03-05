@@ -51,6 +51,34 @@ function day20() {
     let part1 = jigsaw_num[min_num_x + ", " + min_num_y] * jigsaw_num[max_num_x + ", " + min_num_y]
         * jigsaw_num[min_num_x + ", " + max_num_y] * jigsaw_num[max_num_x + ", " + max_num_y]
 
+    for (let tile in jigsaw) {
+        jigsaw[tile] = removeBorders(jigsaw[tile])
+    }
+    let jigsawPicture = []
+    for (let y = min_num_y; y <= max_num_y; y++) {
+        for (let row = 0; row < jigsaw["0, " + y].length; row++) {
+            let line = ""
+            for (let x = min_num_x; x <= max_num_x; x++) {
+                line = line + jigsaw[x + ", " + y][row]
+            }
+            jigsawPicture.push(line)
+        }
+
+    }
+    const seaMonster = ("                  # \n" +
+        "#    ##    ##    ###\n" +
+        " #  #  #  #  #  #   ").split("\n")
+    let key = false
+    for (let i = 1; i <= 8; i++) {
+        if (i === 5) {
+            jigsawPicture = jigsawPicture.reverse()
+        }
+        for (let line = 0; line < jigsawPicture.length - 2; line++) {
+            [jigsawPicture, key] = checkRowForMonsters(jigsawPicture, seaMonster, line, false)
+        }
+        if (key === true) {break}
+        jigsawPicture = rotateTileRight(jigsawPicture)
+    }
     let part2 = 0
 
     console.log(part1 + " " + part2)
@@ -70,6 +98,15 @@ function rotateTileRight(tile) {
         newTile.push(line)
     }
     return newTile
+}
+
+function removeBorders(tile) {
+    tile.pop()
+    tile.shift()
+    tile.forEach((line, i) => {
+        tile[i] = line.slice(1, line.length - 1)
+    })
+    return tile
 }
 
 function fitEdges(edges, edgesToFit) {
@@ -98,4 +135,28 @@ function tileNeighbCheck(tile, jigsaw_num) {
         }
     }
     return true
+}
+
+function checkRowForMonsters(jigsawPicture, seaMonster, line, mark) {
+    let key = true
+    for (let col = 0; col < jigsawPicture[line].length - seaMonster[0].length; col++) {
+        for (let row_m = 0; row_m < seaMonster.length; row_m++) {
+            for (let col_m = 0; col_m < seaMonster[0].length; col_m++) {
+                if (seaMonster[row_m].charAt(col_m) === "#" && jigsawPicture[line + row_m].charAt(col + col_m) !== "#") {
+                    key = false
+                    break
+                } else if (mark && seaMonster[row_m].charAt(col_m) === "#" &&
+                    jigsawPicture[line + row_m].charAt(col + col_m) === "#") {
+                    jigsawPicture[line + row_m] = jigsawPicture[line + row_m].substring(0, col + col_m) + "0"
+                        + jigsawPicture[line + row_m].substring(col + col_m + 1)
+                }
+            }
+            if (key === false) {break}
+        }
+        if (key === true) {break} else if (col + 1 < jigsawPicture[line].length - seaMonster[0].length) {key = true}
+    }
+    if (key === true) {
+        jigsawPicture = checkRowForMonsters(jigsawPicture, seaMonster, line, true)[0]
+    }
+    return [jigsawPicture, key]
 }
