@@ -55,7 +55,7 @@ function day20() {
         jigsaw[tile] = removeBorders(jigsaw[tile])
     }
     let jigsawPicture = []
-    for (let y = min_num_y; y <= max_num_y; y++) {
+    for (let y = max_num_y; y >= min_num_y; y--) {
         for (let row = 0; row < jigsaw["0, " + y].length; row++) {
             let line = ""
             for (let x = min_num_x; x <= max_num_x; x++) {
@@ -147,7 +147,7 @@ function checkRowForMonsters(jigsawPicture, seaMonster, line, mark) {
                     break
                 } else if (mark && seaMonster[row_m].charAt(col_m) === "#" &&
                     jigsawPicture[line + row_m].charAt(col + col_m) === "#") {
-                    jigsawPicture[line + row_m] = jigsawPicture[line + row_m].substring(0, col + col_m) + "0"
+                    jigsawPicture[line + row_m] = jigsawPicture[line + row_m].substring(0, col + col_m) + "O"
                         + jigsawPicture[line + row_m].substring(col + col_m + 1)
                 }
             }
